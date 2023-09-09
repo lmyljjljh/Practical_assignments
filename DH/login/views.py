@@ -21,13 +21,13 @@ def login(request):
         return render(request, "login.html")
     elif method == "POST":
         username = request.POST.get("username")
-        password = str(request.POST.get("pwd"))
+        password = str(request.POST.get("password"))
 
         try:
             user = User.objects.get(username=username)
             res = password + settings.SECRET_KEY
             password = hashlib.md5(res.encode("utf-8")).hexdigest()
-            if password == user.pwd:
+            if password == user.password:
                 html = "<div><h1>恭喜！登录成功！</h1><div><a href='/index'>进入首页</a></div></div>"
                 # 将用户信息存储到session里面
                 # request.session['username'] = user.username
@@ -60,7 +60,7 @@ def register(request):
             return HttpResponse(html)
 
         """密码加密"""
-        password = str(request.POST.get("pwd"))
+        password = str(request.POST.get("password"))
 
         res = password + settings.SECRET_KEY
         password = hashlib.md5(res.encode("utf-8")).hexdigest()
@@ -68,7 +68,7 @@ def register(request):
         email = request.POST.get("email")
 
         """添加数据"""
-        User.objects.create(username=username, pwd=password, email=email, phone_number=phone_number)
+        User.objects.create(username=username, password=password, email=email, phone_number=phone_number)
 
         html = "<div><h1>恭喜，注册成功！</h1><div><a href='/login'>前往登录</div></div>"
         return HttpResponse(html)
