@@ -18,17 +18,25 @@ class answer_1(models.Model):
     question = models.CharField(max_length=255, unique=True)
     answer = models.CharField(max_length=255, unique=True)
 
+    class Meta:
+        db_table = "answer_1"
+
 
 # 回答表（图片）
 class answer_2(models.Model):
     question = models.ImageField(max_length=255, unique=True)
     answer = models.ImageField(max_length=255, unique=True)
 
+    class Meta:
+        db_table = "answer_2"
 
 # 回答表（链接）
 class answer_3(models.Model):
     question = models.CharField(max_length=255, unique=True)
     answer = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        db_table = "answer_3"
 
 
 # 用户登录信息表
@@ -40,6 +48,10 @@ class login(models.Model):
     # 时间
     time = models.TimeField(max_length=255, unique=True)
 
+    class Meta:
+        db_table = "login"
+
+
 # 用户发送短语表
 class phrase(models.Model):
     username = models.CharField(max_length=255, unique=False, primary_key=True)
@@ -48,8 +60,14 @@ class phrase(models.Model):
     # 时间
     time = models.TimeField(max_length=255, unique=True)
 
+    class Meta:
+        db_table = "phrase"
+
 
 # 管理员
 class AD(models.Model):
     username = models.CharField(max_length=255, unique=False, primary_key=True)
     password = models.CharField(max_length=255, unique=False)
+    
+    class Meta:
+        db_table = "AD"
