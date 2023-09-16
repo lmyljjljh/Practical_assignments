@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>聊天室用户管理</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      background-color: #007bff;
+      color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    td input[type="checkbox"] {
+      margin-left: 5px;
+    }
+
+    .addUserForm {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+
+    .addUserForm input {
+      display: block;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      width: 100%;
+    }
+
+    .addUserForm button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .addUserForm button:hover {
+      background-color: #0056b3;
+    }
+
+    .link-actions {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .link-actions a {
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      color: #fff;
+    }
+
+    .link-actions a.delete {
+      background-color: #ff6347;
+    }
+
+    .link-actions a.reset {
+      background-color: #007bff;
+    }
+
+    .link-actions a.ban {
+      background-color: #ff4500;
+    }
+
+    .link-actions a.unban {
+      background-color: #008000;
+    }
+  </style>
+</head>
+<body>
+  <h1>聊天室用户列表</h1>
+  <!-- 添加用户表单 -->
+  <div class="addUserForm">
+    <h2>添加用户</h2>
+    <form id="addUserForm" action="{% url 'add' %}" method="post">
+      {% csrf_token %}
+      <input type="text" id="addName" placeholder="用户名" name="addName" required>
+      <input type="text" id="addEmail" placeholder="邮箱" name="addEmail" required>
+      <input type="text" id="addNumber" placeholder="手机号" name="addNumber" required>
+      <input type="password" id="addCode" placeholder="密码" name="addCode" required>
+      <button type="submit">添加</button>
+    </form>
+  </div>
+
+  <!-- 用户列表 -->
+  <h2>用户列表</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>选择</th>
+        <th>用户名</th>
+        <th>邮箱</th>
+        <th>手机号</th>
+        <th>密码</th>
+        <th>登录状态</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for yh in yhs %}
+      <tr>
+        <td><input type="checkbox"></td>
+        <td>{{ yh.username }}</td>
+        <td>{{ yh.email }}</td>
+        <td>{{ yh.phone_number }}</td>
+        <td>{{ yh.password }}</td>
+        <td>
+          {% if yh.state == 1 %}
+          正常
+          {% else %}
+          异常
+          {% endif %}
+        </td>
+        <td class="link-actions">
+          <a href="/drop/?id={{ yh.id }}" class="delete">删除</a>
+          <a href="javascript:void(0);" class="reset" onclick="resetPassword()">重置密码</a>
+          <a href="/jz/?id={{ yh.id }}" class="ban">禁止登录</a>
+          <a href="/jcjz/?id={{ yh.id }}" class="unban">解除禁止</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script>
+    function resetPassword() {
+      // 弹出密码重置确认框
+      let confirmed = confirm("确定要重置该用户的密码吗？");
+
+      if (confirmed) {
+        // 发送密码重置请求
+        // TODO: 在这里添加发送密码重置请求的代码
+        alert("密码重置成功！");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        input[type="button"] {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .statistics {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <h1>用户信息系统</h1>
+
+    <h2>IP 统计:</h2>
+    <button onclick="getIPStats()">显示 IP 统计</button>
+    <table id="ipStatsTable">
+        <thead>
+            <tr>
+                <th>IP 地址</th>
+                <th>出现次数</th>
+            </tr>
+        </thead>
+        <tbody id="ipStatsBody"></tbody>
+    </table>
+
+    <h2>浏览器统计:</h2>
+    <button onclick="getBrowserStats()">显示浏览器统计</button>
+    <table id="browserStatsTable">
+        <thead>
+            <tr>
+                <th>浏览器</th>
+                <th>出现次数</th>
+            </tr>
+        </thead>
+        <tbody id="browserStatsBody"></tbody>
+    </table>
+
+    <h2>用户数据库:</h2>
+    <table id="userTable">
+        <tr>
+            <th>用户名</th>
+            <th>IP 地址</th>
+            <th>浏览器</th>
+            <th>时 间</th>
+        </tr>
+        {% for dl in dls %}
+            <tr>
+                <td>{{ dl.username }}</td>
+                <td>{{ dl.ip }}</td>
+                <td>{{ dl.browser }}</td>
+                <td>{{ dl.time }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        function getIPStats() {
+            var ipStats = {};
+            var ipElements = document.querySelectorAll("#userTable td:nth-child(2)"); // 获取所有 IP 地址元素
+
+            ipElements.forEach(function (ipElement) {
+                var ip = ipElement.textContent;
+                if (ipStats[ip]) {
+                    ipStats[ip]++;
+                } else {
+                    ipStats[ip] = 1;
+                }
+            });
+
+            // 创建 IP 统计表格
+            var ipStatsTable = document.getElementById("ipStatsTable");
+            var ipStatsBody = document.getElementById("ipStatsBody");
+            ipStatsBody.innerHTML = ""; // 清空表格内容
+
+            for (var ip in ipStats) {
+                var row = ipStatsBody.insertRow();
+                var ipCell = row.insertCell(0);
+                var countCell = row.insertCell(1);
+
+                ipCell.textContent = ip;
+                countCell.textContent = ipStats[ip];
+            }
+        }
+
+        function getBrowserStats() {
+            var browserStats = {};
+            var browserElements = document.querySelectorAll("#userTable td:nth-child(3)"); // 获取所有浏览器元素
+
+            browserElements.forEach(function (browserElement) {
+                var browser = browserElement.textContent;
+                if (browserStats[browser]) {
+                    browserStats[browser]++;
+                } else {
+                    browserStats[browser] = 1;
+                }
+            });
+
+            // 创建浏览器统计表格
+            var browserStatsTable = document.getElementById("browserStatsTable");
+            var browserStatsBody = document.getElementById("browserStatsBody");
+            browserStatsBody.innerHTML = ""; // 清空表格内容
+
+            for (var browser in browserStats) {
+                var row = browserStatsBody.insertRow();
+                var browserCell = row.insertCell(0);
+                var countCell = row.insertCell(1);
+
+                browserCell.textContent = browser;
+                countCell.textContent = browserStats[browser];
+            }
+        }
+    </script>
+</body>
+</html>

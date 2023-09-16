@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手机号登录</title>
+    <style>
+        body {
+            background-image: url("../static/img/rose.jpg");
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #main {
+            width: 480px;
+            height: 350px;
+            background-color: white;
+            opacity: 0.9;
+            border-radius: 10px;
+            position: absolute;
+            right: 35%;
+            top: 30%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-left: 20px;
+        }
+
+        .register {
+            margin-left: 20px;
+            color: silver;
+            font-size: 14px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+        }
+
+        #user {
+            margin-top: 30px;
+        }
+
+        .p1 {
+            line-height: 50px;
+            text-align: center;
+        }
+
+        .inp-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .inp-container input {
+            flex: 1;
+        }
+
+        .inp0 {
+            height: 40px;
+            border-radius: 5px;
+            background-color: aliceblue;
+            border: 1px solid white;
+            outline: none;
+            text-indent: 1em;
+            font-size: 14px;
+        }
+
+        /* 按钮样式 */
+        #get-verification-code {
+            border: none;
+            background-color: #3498db; /* 设置按钮背景颜色 */
+            color: #fff; /* 设置文字颜色 */
+            padding: 10px 20px; /* 调整按钮内边距 */
+            border-radius: 5px; /* 圆角边框 */
+            cursor: pointer; /* 显示手型光标 */
+            transition: background-color 0.3s ease; /* 添加悬停过渡效果 */
+        }
+
+        /* 鼠标悬停时按钮样式 */
+        #get-verification-code:hover {
+            background-color: #2980b9; /* 更改悬停时的背景颜色 */
+        }
+
+        .login {
+            width: 420px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid white;
+            background-color: skyblue;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* 移除按钮的边框 */
+        #get-verification-code {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<h1>手机号登录</h1>
+
+<div id="main">
+    <h1>欢迎登录</h1>
+    <form action="{% url 'yzm' %}" method="post">
+        {% csrf_token %}
+        <p class="register">没有账号？<a href="/register">注册</a><a>|</a><a href="/login">返回登录首页</a><a>|</a><a
+                    href="/zh">忘记密码</a><a>|</a><a href="/adlogin">管理员登录</a></p>
+
+        <div class="p1 inp-container">
+            {% if phone %}
+            手机号:<input type="text" name="phone" id="phone-input" class="inp0" value="{{ phone }}">
+            {% else %}
+            手机号:<input type="text" name="phone" id="phone-input" placeholder="请输入手机号" class="inp0">
+            {% endif %}
+            <button type="submit" id="get-verification-code">获取验证码</button>
+        </div>
+    </form>
+    <!-- 将密码输入框的宽度修改为更大的值，例如400px -->
+    <form action="{% url 'sjlogin' %}" method="post">
+        {% csrf_token %}
+        <p class="p1">
+            验证码:<input type="text" name="param" placeholder="请输入验证码" class="inp0" style="width: 400px;">
+        </p>
+        {% if params %}
+        <input type="text" name="yzm" value="{{ params }}">
+            <input type="text" name="phone" value="{{ phone }}">
+
+        {% endif %}
+        <p class="p1">
+            <button type="submit" class="login">登录</button>
+        </p>
+    </form>
+</div>
+</body>
+</html>

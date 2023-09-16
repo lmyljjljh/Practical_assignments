@@ -46,6 +46,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'login.middleware.MyMiddleWare',
 ]
 
 ROOT_URLCONF = "DH.urls"
@@ -92,6 +93,9 @@ DATABASES = {
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+
+
+
 
 
 # Password validation

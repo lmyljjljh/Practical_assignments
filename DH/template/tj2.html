@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        input[type="button"] {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .statistics {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <h1>用户信息系统</h1>
+
+    <h2>短语 统计:</h2>
+    <button onclick="getPhraseStats()">显示 短语 统计</button>
+    <table id="phraseStatsTable">
+        <thead>
+            <tr>
+                <th>用户名</th>
+                <th>短语</th>
+                <th>出现次数</th>
+            </tr>
+        </thead>
+        <tbody id="phraseStatsBody"></tbody>
+    </table>
+
+    <h2>用户数据库:</h2>
+    <table id="userTable">
+        <tr>
+            <th>用户名</th>
+            <th>短语</th>
+            <th>时 间</th>
+        </tr>
+        {% for phr in phrs %}
+            <tr>
+                <td>{{ phr.username }}</td>
+                <td>{{ phr.ph }}</td>
+                <td>{{ phr.time }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        function getPhraseStats() {
+            var userPhraseStats = {};
+            var phraseStatsTable = document.getElementById("phraseStatsTable");
+            var phraseStatsBody = document.getElementById("phraseStatsBody");
+            phraseStatsBody.innerHTML = ""; // 清空表格内容
+
+            var userRows = document.querySelectorAll("#userTable tr");
+
+            userRows.forEach(function (userRow, index) {
+                if (index > 0) { // 跳过表头行
+                    var username = userRow.querySelector("td:nth-child(1)").textContent;
+                    var phrase = userRow.querySelector("td:nth-child(2)").textContent;
+
+                    if (!userPhraseStats[username]) {
+                        userPhraseStats[username] = {};
+                    }
+
+                    if (!userPhraseStats[username][phrase]) {
+                        userPhraseStats[username][phrase] = 1;
+                    } else {
+                        userPhraseStats[username][phrase]++;
+                    }
+                }
+            });
+
+            // 填充表格
+            for (var username in userPhraseStats) {
+                var userData = userPhraseStats[username];
+                for (var phrase in userData) {
+                    var row = phraseStatsBody.insertRow();
+                    var usernameCell = row.insertCell(0);
+                    var phraseCell = row.insertCell(1);
+                    var countCell = row.insertCell(2);
+
+                    usernameCell.textContent = username;
+                    phraseCell.textContent = phrase;
+                    countCell.textContent = userData[phrase];
+                }
+            }
+        }
+    </script>
+</body>
+</html>

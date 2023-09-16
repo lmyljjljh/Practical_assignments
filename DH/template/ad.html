@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>主页</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f7f9fc;
+    }
+
+    .container {
+      width: 400px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .header, .footer {
+      background-color: #007bff;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .footer {
+      background-color: #f7f9fc;
+      color: #333;
+      text-align: center;
+      padding: 10px 0;
+      border-top: 1px solid #ddd;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .link, .home-link {
+      display: block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 0 0 10px 10px;
+      margin: 10px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .link:hover, .home-link:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>主页</h1>
+    </div>
+    <div class="content">
+      <a class="link" href="/yh/">用户管理系统</a>
+      <a class="link" href="/hdwz/">问答管理系统</a>
+      <a class="link" href="/tj1/">用户登录管理系统</a>
+      <a class="link" href="/tj2/">用户短语管理系统</a>
+      <a class="home-link" href="/login/">退出登录</a>
+    </div>
+    <div class="footer"></div>
+  </div>
+</body>
+</html>
