@@ -1,8 +1,8 @@
 from aliyunsdkcore.client import AcsClient
 from aliyunsdkcore.request import CommonRequest
 
-ACCESS_KEY_ID = "LTAI5tFMMBaVEtSg8T1oUBQz"  # 用户AccessKey
-ACCESS_KEY_SECRET = "eUJCBn0NMjaZFaw1cqeSjlskwHmKRH"  # Access Key Secret
+ACCESS_KEY_ID = ""  # 用户AccessKey
+ACCESS_KEY_SECRET = ""  # Access Key Secret
 
 
 class SMS:
