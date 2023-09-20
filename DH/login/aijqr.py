@@ -38,4 +38,4 @@ class TencentBot:
             return str(err)
 
 
-bot = TencentBot("AKIDXt65qNgtsdAVd2D9tQilbFeokUKuGOK2", "WpvpX1HZdS3RcZIm481jGagYGqERTKyP")
+bot = TencentBot("", "")
