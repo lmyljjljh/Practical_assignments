@@ -128,17 +128,19 @@
     </style>
 </head>
 <body>
-    <h1>登录</h1>
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         <div id="main">
             <h1>欢迎登录</h1>
-            <p class="register">没有账号？<a href="/register">注册</a><a>|</a><a href="/index">返回首页</a><a>|</a><a href="/zh">忘记密码</a><a>|</a><a href="/adlogin">管理员登录</a><a>|</a><a href="/adlogin">手机号登录</a></p></p>
+            <p class="register">没有账号？<a href="/register">注册</a><a>|</a><a href="/zh">忘记密码</a><a>|</a><a href="/adlogin">管理员登录</a><a>|</a><a href="/shlogin">手机号登录</a></p></p>
             <p class="p1">
                 用户名:<input type="text" name="username" placeholder="请输入用户名" class="inp0">
             </p>
             <p class="p1">
                 密&emsp;码:<input type="password" name="password" placeholder="请输入密码" class="inp0">
+            </p>
+                    <p class="p1">
+            <input type="checkbox" required>阅读并接受 <a href="">《个人网站用户协议》</a>及<a href="">《网站隐私权保护说明》</a>
             </p>
             <p class="p1">
                 <button type="submit" class="login">登录</button>

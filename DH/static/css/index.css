@@ -1,0 +1,270 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+	background-image: url("../img/bj.jpg");
+    background-size: cover;
+}
+
+a:link {
+	text-decoration: none;
+	color:#666666;
+}
+a:visited {
+	text-decoration: none;
+	color:#2b2323f2;
+}
+a:hover {
+	text-decoration: none;
+}
+a:active {
+	text-decoration: none;
+}
+.gray-bg {
+  background-color: #f3f3f4;
+}
+.middle-box {
+  max-width: 610px;
+  margin: 0 auto;
+  text-align:center;
+}
+
+
+.logo-name {
+  color: #e6e6e6;
+  font-size: 100px;
+  font-weight: 800;
+  letter-spacing: -10px;
+  margin-bottom: 0px;
+}
+h3 {
+  font-size: 18px;
+  margin-top: 5px;
+  font-weight:600;
+}
+.btn-primary {
+  background-color: #1ab394;
+  border-color: #1ab394;
+  color: #FFFFFF;
+  width: 300px;
+  padding:10px 12px;
+  font-size:14px;
+  text-align:center;
+  vertical-align:middle;
+  cursor:pointer; 
+  border:1px solid transparent;
+  border-radius:4px;
+  margin-right:8px;
+}
+
+.form-control{
+   width:300px;
+   height:40px;
+   padding:6px 12px;
+   font-size:14px;
+   color:#999;
+   background-color:#fff;
+   border:1px solid #ccc;
+}
+.form-group{
+   margin:15px auto;
+   text-align:left;
+}
+.agreement{
+	width:450px;
+	margin-left:150px;
+	font-size:14px;
+}
+.agreement a{
+font-size:14px;
+color:#3399FF;
+padding:0;
+margin-right:125px;
+}
+
+a{
+padding:10px 30px;
+margin-bottom:20px;
+width:80px;
+height: 40px; 
+line-height: 40px;
+font-size:20px;
+cursor:pointer;
+}
+.active{
+width:80px;
+height: 40px; 
+line-height: 40px;
+color:#66CCFF;
+border-bottom:5px solid #66CCFF;
+}
+.form-group label{ 
+	width:150px; 
+	float:left; 
+	text-align:right;
+ 	height:40px; 
+ 	line-height:40px;
+	font-size:18px;
+	color:#333333;
+}
+.error{ 
+	width:100px; 
+	height:20px; 
+	padding:2px; 
+	line-height:20px;
+ 	background:url(../img/error.gif) no-repeat;
+ 	padding-left:20px; 
+ 	margin-left:5px;
+	font-size:14px;
+}
+.right{
+ 	width:100px; 
+ 	height:20px; 
+ 	padding:2px; 
+ 	line-height:20px; 
+ 	background:url(../img/ok.gif) no-repeat;
+ 	padding-left:20px; 
+ 	margin-left:5px;
+	font-size:14px;
+}
+
+
+
+
+        .drag-out{
+		display:inline-block;
+			font-size:14px;
+			color:#333;
+            width:300px;
+            margin: 0 5px 0 150px;
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            background-color: #DDDDDD;
+            text-align: center;
+            user-select:none;
+        }
+        .drag-out span{
+            z-index: 10;
+            position: relative;
+        }
+        .drag-area{
+            position: absolute;
+            height: 38px;
+            border:1px solid #CCCCCC;
+            width: 48px;
+            top: 0;
+            left: 0;
+            background-color: #eee;
+            cursor: move;
+            line-height: 38px;
+            user-select:none;
+        }
+        .drag-code{
+            position: absolute;
+            width: 0;
+            height: 40px;
+            left: 0;
+            top: 0;
+            background-color: #3be288;
+        }
+
+
+
+.beizhu{
+	margin:0px 20px;
+	}
+
+.beizhu .login-link{
+	float:left;
+	}
+	
+.beizhu .login-link a{
+	font-size:15px;
+	padding:10px 0px;
+	margin-bottom:20px;
+	line-height: 40px;
+	cursor:pointer;
+	}
+	
+.deal{
+	width: auto;
+    float: left;
+    margin-left: 65px;
+	}
+	
+.deal #p1 a{
+	font-size:15px;
+	padding:10px 0px;
+	margin-bottom:20px;
+	line-height: 40px;
+	cursor:pointer;
+	}
+
+.form-group_2{
+   margin:15px auto;
+   text-align:left;
+}
+	
+.form-group_2 label{ 
+	width:150px; 
+	float:left; 
+	text-align:right;
+ 	height:40px; 
+ 	line-height:40px;
+	font-size:18px;
+	color:#333333;
+}
+
+#verificationCode{
+   width:185px;
+   height:40px;
+   padding:6px 12px;
+   font-size:14px;
+   color:#999;
+   background-color:#fff;
+   border:1px solid #ccc;
+}
+
+#sendCodeButton{
+   width:100px;
+   height:40px;
+   margin-left:10px;
+   padding:6px 12px;
+   font-size:14px;
+   color:#999;
+   background-color:#fff;
+   border:2px solid #ccc;
+}
+#sendCodeButton:hover{
+   color:blue;
+}
+
+
+.btn-group { /*设置第三方登录按钮组的样式*/
+    width: 90%; /*设置宽度*/
+    margin-left: 20px; /*设置向左的外间距*/
+    margin-top: 20px; /*设置向上的外间距*/
+}
+
+.btn-group li { /*设置列表项样式*/
+    list-style: none; /*清除列表项符号*/
+    float: left; /*设置向左浮动*/
+    padding: 0 10px 0; /*设置内间距*/
+	margin-left:50px;
+}
+
+.btn-group li a { /*设置超链接样式*/
+    padding-left: 10px; /*设置向左的内间距*/
+    color: #070505; /*设置文本颜色*/
+    text-decoration: none; /*去电超链接的下划线*/
+}
+
+.btn-group li a:hover { /*设置超链接样式*/
+    color: #0000ee; /*设置文本颜色*/
+}
+
+
+#form{
+	margin: 40px 0px 0px 0px;
+	}

@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>短信验证登录</title>
+
+    <!-- 在HTML中引用CSS文件 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+
+    <!-- 在HTML中引用JavaScript文件 -->
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+	//文本框失去焦点事件
+	$("input").blur(function(){
+		$(this).parent().find("span").remove();//移除span元素
+		if($(this).is("#username")){//如果账号文本框失去焦点
+			if(this.value==""){//如果账号文本框为空
+				var show=$("<span class='error'>请输入账号</span>");//创建span元素
+	   	   		$(this).parent().append(show);//向页面添加元素
+			}
+		}
+		if($(this).is("#password")){//如果密码框失去焦点
+			if(this.value==""){//如果密码框为空
+				var show=$("<span class='error'>请输入密码</span>");//创建span元素
+	   	   		$(this).parent().append(show);//向页面添加元素
+			}
+		}
+	});
+	//登录按钮单击事件
+	$("#login").click(function(){
+		$(".form-group>span").remove();//移除span元素
+		var username=$("input[name='username']");
+		var password=$("input[name='password']");
+		var result=$(".drag-out").find("span").html();//获取拖动区域文本
+		if(username.val()==""){//如果账号文本框为空
+		   	var show=$("<span class='error'>请输入账号</span>");//创建span元素
+	   	   	username.parent().append(show);//向页面添加元素
+			username.focus();//账号文本框获取焦点
+			return false;
+		}else if(username.val()!="mingri"){
+			var show=$("<span class='error'>账号不正确</span>");//创建span元素
+	   	   	username.parent().append(show);//向页面添加元素
+			return false;
+		}
+		if(password.val()==""){//如果密码框为空
+		   	var show=$("<span class='error'>请输入密码</span>");//创建span元素
+	   	   	password.parent().append(show);//向页面添加元素
+			password.focus();//密码框获取焦点
+			return false;
+		}else if(password.val()!="mingrisoft"){
+			var show=$("<span class='error'>密码不正确</span>");//创建span元素
+	   	   	password.parent().append(show);//向页面添加元素
+			return false;
+		}
+		if(result!="验证通过"){
+			var show=$("<span class='error'>请拖动滑块</span>");//创建span元素
+	   	   	$(".drag-out").after(show);//向页面添加元素
+			return false;
+		}
+		//验证登录是否成功
+		if(username.val()=="mingri" && password.val()=="mingrisoft" && result=="验证通过"){
+			alert("登录成功");//提示登录成功
+		}
+	});
+});
+</script>
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box">
+    <div>
+        <div>
+            <h1 class="logo-name">Welcome&nbsp;to</h1>
+        </div>
+		<span>
+			<a href="register.html">注册</a>
+			<a class="active" href="login.html">登录</a>
+		</span>
+        <form id="loginForm">
+    		<div class="form-group">
+                <label for="phoneNumber">手机号码：</label>
+				<input name="phoneNumber" id="phoneNumber" type="text"  class="form-control" placeholder="请输入手机号" >
+            </div>
+            <div class="form-group_2">
+                <label>验证码：</label>
+				<input type="text" id="verificationCode" name="verificationCode" class="form-control">
+                <button type="button" id="sendCodeButton"><b>发送验证码</b></button><br>
+            </div>
+            <div class="beizhu" style="font-size:15px;">
+            <a href="login.html" style="font-size:15px;color:#0000EE"><b>返回用户登录</b></a></label>
+
+      		</div>
+
+    </div>
+
+    <button type="submit" id="login" class="btn-primary">登 录</button>
+  </form>
+
+  <script>
+    // 向阿里云发送验证码请求
+    function sendVerificationCode() {
+      var phoneNumber = $('#phoneNumber').val();
+
+      // 发送验证码的请求
+      $.ajax({
+        url: 'https://dysmsapi.aliyuncs.com',
+        type: 'POST',
+        data: {
+          Action: 'SendSms',
+          PhoneNumbers: phoneNumber,
+          SignName: 'YourSignName',
+          TemplateCode: 'YourTemplateCode'
+        },
+        success: function(response) {
+          console.log(response);
+          // 处理发送成功后的逻辑
+        },
+        error: function(error) {
+          console.log(error);
+          // 处理发送失败后的逻辑
+        }
+      });
+    }
+
+    // 提交登录表单时验证验证码
+    $('#loginForm').submit(function(event) {
+      event.preventDefault();
+      var verificationCode = $('#verificationCode').val();
+
+      // 验证验证码的请求
+      $.ajax({
+        url: 'https://dysmsapi.aliyuncs.com',
+        type: 'POST',
+        data: {
+          Action: 'VerifySmsCode',
+          PhoneNumbers: phoneNumber,          TemplateCode: 'YourTemplateCode',
+          Code: verificationCode
+        },
+        success: function(response) {
+          console.log(response);
+          // 处理验证成功后的逻辑
+        },
+        error: function(error) {
+          console.log(error);
+          // 处理验证失败后的逻辑
+        }
+      });
+    });
+
+    // 点击发送验证码按钮时调用发送验证码函数
+    $('#sendCodeButton').click(sendVerificationCode);
+  </script>
+
+    <div class="deal">
+        	<p id="p1">
+            <input type="checkbox">阅读并接受 <a href="">《个人网站用户协议》及<a href="">《网站隐私权保护说明》</a>
+            </p>
+        </div>
+</div>
+
+
+
+
+</body>
+</html>

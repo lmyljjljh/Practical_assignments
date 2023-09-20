@@ -10,6 +10,14 @@ from .models import login as DL
 from login.fasong import sms
 from random import randint
 import re
+from login.aijqr import bot
+
+# myapp/views.py
+import concurrent.futures
+
+# 创建一个线程池，限制并发数为10
+executor = concurrent.futures.ThreadPoolExecutor(max_workers=10)
+
 
 # 首页视图
 def index(request):
@@ -20,19 +28,23 @@ def index(request):
     if request.method == 'POST':
         # 获取表单传过来的问题
         question = request.POST.get('question', '')
-        response = None
-        if question:
-            try:
-                # 在数据库中查找相应的问题
-                response = answer_1.objects.get(question=question)
-                # 将此时用户行为记录
-                phrase.objects.create(username=request.session['username'], ph=question,
-                                      time=timezone.now())
-            except answer_1.DoesNotExist:
-                response = None
-
+        response = bot.chat(str(question))
+        phrase.objects.create(username=request.session['username'], ph=question,
+                              time=timezone.now())
         return render(request, 'index.html',
                       {'question': question, 'response': response, 'keywords': keywords, 'key': "0"})
+        # if question:
+        #     try:
+        #         # 在数据库中查找相应的问题
+        #         response = answer_1.objects.get(question=question)
+        #         # 将此时用户行为记录
+        #         phrase.objects.create(username=request.session['username'], ph=question,
+        #                               time=timezone.now())
+        #     except answer_1.DoesNotExist:
+        #         response = None
+        #
+        # return render(request, 'index.html',
+        #               {'question': question, 'response': response, 'keywords': keywords, 'key': "0"})
     # 页面首次进入
     elif request.method == 'GET':
         welcome_message = "欢迎来到 Chat Room"
@@ -56,6 +68,10 @@ def yonghuguanli(request):
     # phone_number = [entry['phone_number'] for entry in phone_number]
     user = User.objects.all()
     # print(User.objects.values('id'))
+    # 在这里创建一个新的User对象并设置密码
+    # for user in users:
+    #     print(user.password)
+    #     user.new_password = '新密码'  # 设置新的密码值，替换为你想要的值
     # 2、组织数据
     context = {
         'yhs': user
@@ -87,8 +103,8 @@ def add(request):
         phone_number = request.POST.get('addNumber')
         # print("*******************************************")
         """密码加密"""
-        res = password + settings.SECRET_KEY
-        password = hashlib.md5(res.encode("utf-8")).hexdigest()
+        # res = password + settings.SECRET_KEY
+        # password = hashlib.md5(res.encode("utf-8")).hexdigest()
         # print("*******************************************")
         # print(username)
         # print(password)
@@ -145,8 +161,8 @@ def cz(request):
         # print(response_id)
         user = User.objects.get(id=response_id)
         password = '123456'
-        res = password + settings.SECRET_KEY
-        password = hashlib.md5(res.encode("utf-8")).hexdigest()
+        # res = password + settings.SECRET_KEY
+        # password = hashlib.md5(res.encode("utf-8")).hexdigest()
         """修改数据"""
         user.password = password
         user.save()
@@ -188,13 +204,17 @@ def jcjz(request):
 # 管理员登录视图
 def adlogin(request):
     method = request.method
+    # print('**************************************')
     if method == "GET":
         return render(request, "ADlogin.html")
     elif method == "POST":
         username = request.POST.get("username")
         password = str(request.POST.get("password"))
+        # print('**********************************')
         try:
+            # print('**********************************')
             ad = AD.objects.get(username=username)
+            # print('**************************************')
             if password == ad.password and ad is not None:
                 return redirect('/ad/')
         except AD.DoesNotExist:
@@ -213,10 +233,10 @@ def login(request):
 
         try:
             user = User.objects.get(username=username)
-            res = password + settings.SECRET_KEY
-            password = hashlib.md5(res.encode("utf-8")).hexdigest()
-            state = user.state
-            if password == user.password and state == True:
+            # res = password + settings.SECRET_KEY
+            # password = hashlib.md5(res.encode("utf-8")).hexdigest()
+            states = user.state
+            if password == user.password and states == True:
                 # 将用户信息存储到session里面
                 request.session['username'] = user.username
                 # # 获取访问者IP
@@ -319,8 +339,8 @@ def register(request):
         """密码加密"""
         password = str(request.POST.get("password"))
 
-        res = password + settings.SECRET_KEY
-        password = hashlib.md5(res.encode("utf-8")).hexdigest()
+        # res = password + settings.SECRET_KEY
+        # password = hashlib.md5(res.encode("utf-8")).hexdigest()
 
         email = request.POST.get("email")
 
@@ -342,8 +362,8 @@ def zh(request):
         """密码加密"""
         password = str(request.POST.get("password"))
 
-        res = password + settings.SECRET_KEY
-        password = hashlib.md5(res.encode("utf-8")).hexdigest()
+        # res = password + settings.SECRET_KEY
+        # password = hashlib.md5(res.encode("utf-8")).hexdigest()
 
         email = request.POST.get("email")
 
@@ -374,6 +394,7 @@ def tj2(request):
     }
     return render(request, 'tj2.html', context=context)
 
+
 # 获取手机验证码
 def Aliyun_register(request):
     method = request.method  # 请求方法
@@ -387,8 +408,11 @@ def Aliyun_register(request):
     elif method == "POST":
         # 生成验证码
         params = "{'code':%d}" % (randint(1000, 100000))
-        para = request.POST.get('phone')
-        print(para)
+        para = request.POST.get('phoneNumber')
+        # print(para)
+        request.session['yzm'] = params
+        request.session['phone'] = para
+        print(params)
 
         res = sms.send(para, params)
         context = {
@@ -398,6 +422,7 @@ def Aliyun_register(request):
         return render(request, 'shoujilogin.html', context=context)
     # return HttpResponse(res)
 
+
 # 手机号登录页面视图
 def shjlogin(request):
     context = {
@@ -406,6 +431,7 @@ def shjlogin(request):
     }
     # print("*******************************************************")
     return render(request, 'shoujilogin.html', context=context)
+
 
 # 报错返回视图
 def errof(request):
@@ -425,16 +451,20 @@ def sjlogin(request):
     if method == "GET":
         return render(request, "zhaohui.html")
     elif method == "POST":
-        phone = request.POST.get("phone")
-        param = request.POST.get("param")
-        yzm = request.POST.get("yzm")
+        # phone = request.POST.get("phoneNumber")
+        param = request.POST.get("verificationCode")
+        yzm = request.session.get('yzm', None)
+        phone = request.session.get('phone', None)
+        print('*************************************************')
+        print(yzm)
+        print(phone)
         res = User.objects.filter(phone_number=phone)
         print(res)
 
         """验证手机号是否存在"""
         if res:
             """验证验证码是否正确"""
-            # print(111111111111111111111111111)
+            print(111111111111111111111111111)
             yzm = re.findall(r'\d+', yzm)
             # print(yzm[0])
             # print(param)
@@ -461,6 +491,8 @@ def sjlogin(request):
                 times = timezone.now()
                 # print(times)
                 DL.objects.create(username=user.username, ip=ip, time=times, browser=browser)
+                del request.session['phone']
+                del request.session['yzm']
                 return redirect('/index/')
             else:
                 print(222222222222222222222222222222222)

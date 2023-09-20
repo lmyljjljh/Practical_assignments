@@ -1,142 +1,86 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>手机号登录</title>
+    <meta charset="utf-8">
+    <title>短信验证登录</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+
     <style>
-        body {
-            background-image: url("../static/img/rose.jpg");
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+        /* 添加样式以缩小手机号码和验证码输入框 */
+        #phoneNumber, #verificationCode {
+            width: 150px; /* 设置宽度 */
+            height: 30px; /* 设置高度 */
+            /* 其他样式属性... */
         }
 
-        #main {
-            width: 480px;
-            height: 350px;
-            background-color: white;
-            opacity: 0.9;
-            border-radius: 10px;
-            position: absolute;
-            right: 35%;
-            top: 30%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        /* 对齐label和输入框 */
+        .form-group label {
+            display: inline-block;
+            width: 100px; /* 调整label的宽度以对齐 */
+            text-align: right;
         }
 
-        h1 {
-            font-size: 30px;
-            font-weight: bold;
-            margin-top: 30px;
-            margin-left: 20px;
-        }
-
-        .register {
-            margin-left: 20px;
-            color: silver;
-            font-size: 14px;
-        }
-
-        a {
-            text-decoration: none;
-            color: #3498db;
-        }
-
-        #user {
-            margin-top: 30px;
-        }
-
-        .p1 {
-            line-height: 50px;
-            text-align: center;
-        }
-
-        .inp-container {
+        /* 使用Flex布局将输入框放置在中间 */
+        .middle-box {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
 
-        .inp-container input {
-            flex: 1;
-        }
-
-        .inp0 {
-            height: 40px;
-            border-radius: 5px;
-            background-color: aliceblue;
-            border: 1px solid white;
-            outline: none;
-            text-indent: 1em;
-            font-size: 14px;
-        }
-
-        /* 按钮样式 */
-        #get-verification-code {
-            border: none;
-            background-color: #3498db; /* 设置按钮背景颜色 */
-            color: #fff; /* 设置文字颜色 */
-            padding: 10px 20px; /* 调整按钮内边距 */
-            border-radius: 5px; /* 圆角边框 */
-            cursor: pointer; /* 显示手型光标 */
-            transition: background-color 0.3s ease; /* 添加悬停过渡效果 */
-        }
-
-        /* 鼠标悬停时按钮样式 */
-        #get-verification-code:hover {
-            background-color: #2980b9; /* 更改悬停时的背景颜色 */
-        }
-
-        .login {
-            width: 420px;
-            height: 40px;
-            border-radius: 10px;
-            border: 1px solid white;
-            background-color: skyblue;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-        }
-
-        /* 移除按钮的边框 */
-        #get-verification-code {
-            border: none;
+        /* 对齐注册和登录按钮 */
+        span a {
+            margin-right: 10px;
         }
     </style>
+
 </head>
-<body>
-<h1>手机号登录</h1>
-
-<div id="main">
-    <h1>欢迎登录</h1>
-    <form action="{% url 'yzm' %}" method="post">
-        {% csrf_token %}
-        <p class="register">没有账号？<a href="/register">注册</a><a>|</a><a href="/login">返回登录首页</a><a>|</a><a
-                    href="/zh">忘记密码</a><a>|</a><a href="/adlogin">管理员登录</a></p>
-
-        <div class="p1 inp-container">
-            {% if phone %}
-            手机号:<input type="text" name="phone" id="phone-input" class="inp0" value="{{ phone }}">
-            {% else %}
-            手机号:<input type="text" name="phone" id="phone-input" placeholder="请输入手机号" class="inp0">
-            {% endif %}
-            <button type="submit" id="get-verification-code">获取验证码</button>
+<body class="gray-bg">
+    <div class="middle-box">
+        <div>
+            <div>
+                <h1 class="logo-name">Welcome&nbsp;to</h1>
+            </div>
+            <span>
+                <a href="/register">注册</a>
+                <a class="active" href="/shjlogin">登录</a>
+            </span>
+            <form id="loginForm" action="{% url 'yzm' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {% if phone %}
+                    <label for="phoneNumber">手机号码：</label>
+                    <input name="phoneNumber" id="phoneNumber" type="text" class="form-control" value="{{ phone }}" required>
+                    {% else %}
+                    <label for="phoneNumber">手机号码：</label>
+                    <input name="phoneNumber" id="phoneNumber" type="text" class="form-control" placeholder="请输入手机号" required>
+                    {% endif %}
+                    <button type="submit" id="get-verification-code">获取验证码</button>
+                </div>
+            </form>
+            <form id="loginForm" action="{% url 'sjlogin' %}" method="post" >
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="verificationCode">验证码：</label>
+                    <input type="text" id="verificationCode" name="verificationCode" class="form-control" required>
+                </div>
+                <div class="deal">
+            <p id="p1">
+                <input type="checkbox" required>阅读并接受 <a href="">《个人网站用户协议》及</a><a href="">《网站隐私权保护说明》</a>
+            </p>
         </div>
-    </form>
-    <!-- 将密码输入框的宽度修改为更大的值，例如400px -->
-    <form action="{% url 'sjlogin' %}" method="post">
-        {% csrf_token %}
-        <p class="p1">
-            验证码:<input type="text" name="param" placeholder="请输入验证码" class="inp0" style="width: 400px;">
-        </p>
-        {% if params %}
-        <input type="text" name="yzm" value="{{ params }}">
-            <input type="text" name="phone" value="{{ phone }}">
+                <button type="submit" id="login" class="btn-primary">登录</button>
+            </form>
+            <div class="beizhu" style="font-size:15px;">
+                    <a href="/login" style="font-size:15px;color:#0000EE"><b>返回用户登录</b></a></label>
+                </div>
+        </div>
 
-        {% endif %}
-        <p class="p1">
-            <button type="submit" class="login">登录</button>
-        </p>
-    </form>
-</div>
+    </div>
 </body>
 </html>

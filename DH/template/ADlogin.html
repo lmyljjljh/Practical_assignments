@@ -128,12 +128,12 @@
     </style>
 </head>
 <body>
-    <h1>登录</h1>
     <form action="{% url 'adlogin' %}" method="post">
         {% csrf_token %}
         <div id="main">
             <h1>欢迎登录</h1>
-            <a href="/login">返回用户登录</a>
+            <p class="register"> <a href="/login">返回用户登录</a></p>
+
             <p class="p1">
                 用户名:<input type="text" name="username" placeholder="请输入用户名" class="inp0">
             </p>

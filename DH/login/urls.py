@@ -7,7 +7,7 @@ urlpatterns = [
     path('adlogin/', views.adlogin, name='adlogin'),
     path('ad/', views.ad, name='ad'),
     # path('chat_room/', views.chat_room, name='chat_room'),
-    path('register/', views.register),
+    path('register/', views.register, name='register'),
     path('yh/', views.yonghuguanli),
     path('add/', views.add, name='add'),
     path('drop/', views.drop, name='drop'),
@@ -26,5 +26,6 @@ urlpatterns = [
     path('yzm/', views.Aliyun_register, name='yzm'),
     path('errof/', views.errof, name='errof'),
     path('sjlogin/', views.sjlogin, name='sjlogin'),
+    path('', views.login, name='login'),
 
 ]

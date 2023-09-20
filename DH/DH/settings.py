@@ -24,7 +24,7 @@ SECRET_KEY = "django-insecure-5oqrfe-6%!t#!@&1f2r_=9q-byf(ig4_o#^7rtu5ktr+5ilqe-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'login',
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -133,3 +134,7 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# 配置全局限制，默认设置为5次每分钟
+RATELIMIT_GLOBAL = '15/m'
